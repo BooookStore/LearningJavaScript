@@ -195,9 +195,9 @@ console.log(obj['x']);
 {
   // Mapオブジェクトはnewで生成するみたい。
   let map1 = new Map();
-  map1.set('dog','わんわん');
-  map1.set('cat','にゃー');
-  map1.set('mouse','チュー');
+  map1.set('dog', 'わんわん');
+  map1.set('cat', 'にゃー');
+  map1.set('mouse', 'チュー');
 
   console.log(map1.size);
   console.log(map1.get('dog'));
@@ -248,4 +248,86 @@ console.log(obj['x']);
   // 削除
   s.delete(100);
   s.clear();
+}
+
+// Dateオブジェクト
+{
+  let d1 = new Date();
+  let d2 = new Date('2017/08/09 20:07:04');
+  let d3 = new Date(2016, 7, 9, 20, 07, 04); // この形式だけ月が０始まり。
+
+  console.log(d2.getMonth() + 1); // 月だけ０始まりで内部保存される。わかりづらいから注意。
+  console.log(d2.getDate());
+  console.log(d2.getHours());
+  console.log(d2.getMinutes());
+
+  // 日付を設定し直すには、一度取得して設定し直す。addXxxとかはない。
+  d2.setMonth(d2.getMonth() + 1);
+  console.log(d2.toLocaleDateString());
+
+  // 差を求めるのも原始的な処理が必要に。
+  let start = new Date(2017, 8, 15);
+  let end = new Date(2017, 8, 30);
+  let diff = (end.getTime() - start.getTime()) /
+    (1000 /* ミリ秒 */ * 60 /* 秒 */ * 60 /* 分 */ * 24 /* 時間 */ );
+  console.log("diff is -> " + diff);
+}
+
+// ReqExpオブジェクト
+{
+
+}
+
+// Objectオブジェクト
+// すべてのオブジェクトの雛形
+{
+  var object = new Object();
+  console.log(object.toString());
+  console.log(object.valueOf());
+
+  // assignメソッド
+  // target へ source の内容をコピーする。
+  let pet = {
+    type: 'dog',
+    name: 'キラ',
+    description: {
+      bith: 2017
+    }
+  };
+
+  let pet2 = {
+    blood: 'A'
+  };
+
+  Object.assign(pet, pet2);
+  console.log(pet);
+  let merged = Object.assign({}, pet, pet2);
+  console.log(merged);
+
+  // Objectオブジェクトの生成方法。
+  var object = {};
+  // 上と同じ動きをする。
+  // 実際、上のコードの内部ではこのような動きが行われている。
+  var object = Object.create(Object.prototype, {
+    name: {
+      value: 'poti',
+      writable: true,
+      configurable: true,
+      enumerable: true
+    }
+  });
+
+  console.log(object);
+
+  {
+    'use strict';
+
+    let pet3 = {
+      type: 'dog',
+      name: 'poti'
+    };
+    Object.freeze(pet3);
+
+    pet3.name = 'ppp';
+  }
 }
