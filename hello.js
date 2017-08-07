@@ -120,7 +120,9 @@ console.log(obj['x']);
   let TUESDAY = Symbol();
   console.log(MONDAY === MONDAY);
   console.log(MONDAY === TUESDAY);
+}
 
+{
   // Arrayオブジェクト
   let ary = new Array(1, 2, 3, 4);
   let ary3 = new Array(10); // 配列のサイズを指定
@@ -143,7 +145,107 @@ console.log(obj['x']);
   let sliced2 = ary2.splice(1, 0, 90);
   console.log(ary2);
 
+  // forEach関数。
+  ary2.forEach(function(value, index, array) {
+    console.log(`index:${index} value:${value} array:${array}`);
+  })
+
+  // map関数。
+  let mapped = ary2.map(function(value, index, array) {
+    return value * value;
+  })
+  console.log("ary2 map -> " + mapped);
+
+  // some関数。
+  console.log(ary2.some(function(value, index, array) {
+    return (value === 4) ? true : false;
+  }));
+
+  // filter関数。
+  // 奇数を追加。
+  ary2.push(89);
+  let OddNum = ary2.filter(function(value, index, array) {
+    return value % 2 === 1;
+  });
+  console.log("奇数 -> " + OddNum);
+
+  // 文字があったらどうなる？
+  //  -> エラーにならない。おそらく、falseと演算されている。
+  ary2.push('あ');
+  let OddNum2 = ary2.filter((value, index, array) => {
+    return value % 2 === 1;
+  });
+  console.log("文字を含んでいた時のfilter -> " + OddNum2);
+
   // sort関数。無名関数利用可能。
-  console.log(ary2.sort(function(x,y) { return x - y; }));
-  console.log(ary2.sort((x,y) => x - y));
+  console.log(ary2.sort(function(x, y) {
+    return x - y;
+  }));
+  console.log(ary2.sort((x, y) => x - y));
+}
+
+// Mapオブジェクト
+// 従来のJavaScriptではオブジェクトで表現していたがES2015でようやく対応。
+// オブジェクトと比べて、
+// (1) 任意の形でキーを設定可能
+//      ->オブジェクトはプロパティが文字列のみ。
+// (2) マップのサイズを取得可能
+// (3) クリーンなマップを作成可能
+//      ->オブジェクトは最初からプロパティが設定されている。
+{
+  // Mapオブジェクトはnewで生成するみたい。
+  let map1 = new Map();
+  map1.set('dog','わんわん');
+  map1.set('cat','にゃー');
+  map1.set('mouse','チュー');
+
+  console.log(map1.size);
+  console.log(map1.get('dog'));
+  console.log(map1.has('dog'));
+
+  // キーを元に中身を取得
+  for (let key of map1.keys()) {
+    console.log(`${key} is ${map1.get(key)}`);
+  }
+
+  // 値を順に取得
+  for (let value of map1.values()) {
+    console.log(`map1 has value -> ${value}`);
+  }
+
+  // キー/値を順に取得
+  for (let [key, value] of map1) {
+    console.log(`${key} is ${value}`);
+  }
+
+  // 削除
+  map1.delete('dog');
+  map1.clear();
+}
+
+// Setオブジェクト
+{
+  let s = new Set();
+  let s2 = new Set([10, 5, 20, 30]);
+  s.add(10);
+  s.add(5);
+  s.add(500);
+  s.add(5); // 同じ値は無視される
+
+  console.log(s.has(100));
+  console.log(s.size);
+
+  // 値のループ（１）
+  for (let value of s) {
+    console.log(value);
+  }
+
+  // 値のループ（２）
+  for (let value of s.values()) {
+    console.log(value);
+  }
+
+  // 削除
+  s.delete(100);
+  s.clear();
 }
