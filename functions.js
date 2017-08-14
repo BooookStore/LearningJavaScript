@@ -199,3 +199,67 @@
 
   arrayWalk([1, 2, 3, 4], (k, v) => console.log(k + ':' + v));
 }
+
+// その他高度なテーマ
+{
+
+  // テンプレート文字列
+  function escapeHtml(str) {
+    if (!str) {
+      return '';
+    }
+
+    str = str.replace(/&/g, '&amp;');
+    str = str.replace(/</g, '&lt;');
+    str = str.replace(/>/g, '&gt;');
+    str = str.replace(/"/g, '&quot;');
+    str = str.replace(/'/g, '&#39;');
+
+    return str;
+  }
+
+  function e(templates, ...values) {
+    let result = '';
+    for (let i = 0, len = templates.length; i < len; i++) {
+      result += templates[i] + escapeHtml(value[i]);
+    }
+    return result;
+  }
+
+  let name = '<"Mario" & \'Luigi\'>';
+  console.log(e `Hello!!,${name}`);
+
+  // スコープチェーン
+  var x = 'Global';
+
+  function outerFunc() {
+    var y = 'Local Outer';
+
+    function innerFunc() {
+      var z = 'Local Inner';
+      console.log(x);
+      console.log(y);
+      console.log(z);
+    }
+
+    innerFunc();
+  }
+  outerFunc();
+
+  // クロージャ
+  function closure(init) {
+    var counter = init; // 戻り地の匿名関数で参照されるので、残り続ける。
+
+    return function() {
+      return ++counter;
+    }
+  }
+
+  // ・匿名関数を表すCallオブジェクト
+  // ・closure関数のCallオブジェクト
+  // ・グローバルオブジェクト
+  var myClosure = closure(1);
+  console.log(myClosure());
+  console.log(myClosure());
+  console.log(myClosure());
+}
